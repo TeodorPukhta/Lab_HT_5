@@ -3,9 +3,6 @@ package BasketTests;
 import manager.PageFactoryManager;
 import model.Product;
 import model.Products;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
 import pages.HomePage;
 import pages.SearchResultPage;
@@ -38,7 +35,6 @@ public class BasketTest {
 
     @BeforeMethod
     public void testSetUp() {
-        pageFactoryManager = new PageFactoryManager();
         PropertiesReader propertiesReader = new PropertiesReader();
         WebDriverSingleton.getInstance().manage().window().maximize();
         WebDriverSingleton.getInstance().get(propertiesReader.getURL());
@@ -47,15 +43,13 @@ public class BasketTest {
     @BeforeTest
     public void profileSetUp() {
         chromedriver().setup();
-
     }
 
     @Test(dataProvider = "data")
-    public void checkThatProductIsInBucketAndBlowPrice(String dataId, Product product) throws InterruptedException {
-        homePage = pageFactoryManager.getHomePage();
-        WebDriverWait wait = new WebDriverWait(homePage.getWebDriver(), 10);
+    public void checkThatProductIsInBucketAndBlowPrice(String dataId, Product product) {
+        homePage = new HomePage();
         homePage.searchByKeyWord(product.getName());
-        searchResultPage = pageFactoryManager.getSearchResultPage();
+        searchResultPage = new SearchResultPage();
         searchResultPage.waitForPageToLoad();
         searchResultPage.scrollToElement(searchResultPage.getSearchBrandField());
         searchResultPage.searchProductByBrandFilter(product.getBrand());
@@ -67,6 +61,6 @@ public class BasketTest {
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
-        WebDriverSingleton.close();
+     //   WebDriverSingleton.close();
     }
 }

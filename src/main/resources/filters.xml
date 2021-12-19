@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <products>
-    <product>
-        <id>1</id>
-        <name>Ноутбук</name>
-        <brand>Lenovo</brand>
-        <price>5000</price>
-    </product>
+<!--    <product>-->
+<!--        <id>1</id>-->
+<!--        <name>Ноутбук</name>-->
+<!--        <brand>Lenovo</brand>-->
+<!--        <price>5000</price>-->
+<!--    </product>-->
 <!--    <product>-->
 <!--        <id>2</id>-->
 <!--        <name>Телефон</name>-->
@@ -18,16 +18,16 @@
 <!--        <brand>JBL</brand>-->
 <!--        <price>500</price>-->
 <!--    </product>-->
-<!--    <product>-->
-<!--        <id>4</id>-->
-<!--        <name>Пилосос</name>-->
-<!--        <brand>Dyson</brand>-->
-<!--        <price>6000</price>-->
-<!--    </product>-->
-<!--    <product>-->
-<!--        <id>5</id>-->
-<!--        <name>Телевізор</name>-->
-<!--        <brand>Vinga</brand>-->
-<!--        <price>20000</price>-->
-<!--    </product>-->
+    <product>
+        <id>4</id>
+        <name>Пилосос</name>
+        <brand>Dyson</brand>
+        <price>6000</price>
+    </product>
+    <product>
+        <id>5</id>
+        <name>Телевізор</name>
+        <brand>Vinga</brand>
+        <price>10000</price>
+    </product>
 </products>

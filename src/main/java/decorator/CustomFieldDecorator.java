@@ -21,7 +21,6 @@ public class CustomFieldDecorator extends DefaultFieldDecorator {
     @Override
     public Object decorate(ClassLoader loader, Field field) {
         Class<IElement> decoratableClass = decoratableClass(field);
-        // если класс поля декорируемый
         if (decoratableClass != null) {
             ElementLocator locator = factory.createLocator(field);
             if (locator == null) {

@@ -31,6 +31,7 @@ protected WebElement webElement;
 
     @Override
     public void clear() {
+        webElement.clear();
     }
 
     @Override
@@ -55,7 +56,7 @@ protected WebElement webElement;
 
     @Override
     public String getText() {
-        return null;
+        return webElement.getText();
     }
 
     @Override
