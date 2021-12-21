@@ -2,16 +2,15 @@ package tests;
 
 import business.AddProductToBasket;
 import business.SearchProduct;
+import business.TestVerification;
 import model.Product;
 import model.Products;
 import org.testng.annotations.*;
-import org.testng.asserts.SoftAssert;
 import util.PropertiesReader;
 import util.WebDriverSingleton;
 import util.XMLReader;
 
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
-import static org.testng.Assert.assertTrue;
 
 public class BasketTest {
 
@@ -39,16 +38,13 @@ public class BasketTest {
 
     @Test(dataProvider = "provideData")
     public void checkThatProductIsInBucketAndBlowPrice(String dataId, Product product) {
-        SoftAssert softAssert = new SoftAssert();
         SearchProduct searchProduct = new SearchProduct();
         searchProduct.searchProduct(product.getName(), product.getBrand());
 
         AddProductToBasket addProductToBasket = new AddProductToBasket();
         addProductToBasket.addFirstProductInListToBasket(searchProduct.getSearchResultPage());
 
-        softAssert.assertTrue(Integer.parseInt(product.getPrice()) < addProductToBasket.getBasketSumValue());
-        softAssert.assertEquals(addProductToBasket.getNumberOfProductsInBasket(), 1);
-        softAssert.assertAll();
+        new TestVerification().checkBasketTest(product.getPrice(), addProductToBasket);
     }
 
     @AfterMethod(alwaysRun = true)

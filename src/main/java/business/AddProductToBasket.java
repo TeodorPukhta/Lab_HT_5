@@ -11,9 +11,11 @@ public class AddProductToBasket {
         searchResultPage.clickOnAddProductToBasketButton();
         searchResultPage.clickOnBasketIcon();
     }
+
     public int getBasketSumValue(){
         return searchResultPage.getSumPriceValue();
     }
+
     public int getNumberOfProductsInBasket(){
         return searchResultPage.countProductsInBasket();
     }
