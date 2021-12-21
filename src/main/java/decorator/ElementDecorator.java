@@ -46,7 +46,7 @@ protected WebElement webElement;
 
     @Override
     public boolean isSelected() {
-        return false;
+        return webElement.isSelected();
     }
 
     @Override

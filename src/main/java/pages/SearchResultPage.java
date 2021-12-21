@@ -52,11 +52,15 @@ public class SearchResultPage extends BasePage{
             new WebDriverWait(WebDriverSingleton.getInstance(),15).until(ExpectedConditions.elementToBeClickable(sumPriceLabel));
             return Integer.parseInt(sumPriceLabel.getLabelText());
     }
-    public int getNumberOfProductsInBasket(){
+    public int countProductsInBasket(){
         return productsInBasketLabel.size();
     }
 
     public InputText getSearchBrandField() {
         return searchBrandField;
+    }
+
+    public List<CheckBox> getBrandCheckBoxes() {
+        return brandCheckBoxes;
     }
 }

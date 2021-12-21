@@ -1,16 +1,17 @@
 package tests;
 
+import business.AddProductToBasket;
+import business.SearchProduct;
 import model.Product;
 import model.Products;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
-import pages.HomePage;
-import pages.SearchResultPage;
 import util.PropertiesReader;
 import util.WebDriverSingleton;
 import util.XMLReader;
 
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
+import static org.testng.Assert.assertTrue;
 
 public class BasketTest {
 
@@ -39,16 +40,14 @@ public class BasketTest {
     @Test(dataProvider = "provideData")
     public void checkThatProductIsInBucketAndBlowPrice(String dataId, Product product) {
         SoftAssert softAssert = new SoftAssert();
-        HomePage homePage = new HomePage();
-        homePage.searchByKeyWord(product.getName());
-        SearchResultPage searchResultPage = new SearchResultPage();
-        searchResultPage.waitForPageToLoad();
-        searchResultPage.scrollToElement(searchResultPage.getSearchBrandField());
-        searchResultPage.searchProductByBrandFilter(product.getBrand());
-        searchResultPage.clickOnAddProductToBasketButton();
-        searchResultPage.clickOnBasketIcon();
-        softAssert.assertTrue(Integer.parseInt(product.getPrice()) < searchResultPage.getSumPriceValue());
-        softAssert.assertEquals(searchResultPage.getNumberOfProductsInBasket(), 1);
+        SearchProduct searchProduct = new SearchProduct();
+        searchProduct.searchProduct(product.getName(), product.getBrand());
+
+        AddProductToBasket addProductToBasket = new AddProductToBasket();
+        addProductToBasket.addFirstProductInListToBasket(searchProduct.getSearchResultPage());
+
+        softAssert.assertTrue(Integer.parseInt(product.getPrice()) < addProductToBasket.getBasketSumValue());
+        softAssert.assertEquals(addProductToBasket.getNumberOfProductsInBasket(), 1);
         softAssert.assertAll();
     }
 
