@@ -5,7 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.concurrent.TimeUnit;
 
-public class WebDriverSingleton {
+public class    WebDriverSingleton {
     private static ThreadLocal<WebDriver> webDriverThreadLocal = new ThreadLocal<>();
 
     public static WebDriver getInstance(){

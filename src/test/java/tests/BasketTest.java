@@ -1,9 +1,9 @@
-package BasketTests;
+package tests;
 
-import manager.PageFactoryManager;
 import model.Product;
 import model.Products;
 import org.testng.annotations.*;
+import org.testng.asserts.SoftAssert;
 import pages.HomePage;
 import pages.SearchResultPage;
 import util.PropertiesReader;
@@ -11,26 +11,17 @@ import util.WebDriverSingleton;
 import util.XMLReader;
 
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class BasketTest {
-    PageFactoryManager pageFactoryManager;
-    HomePage homePage;
-    SearchResultPage searchResultPage;
 
-    @DataProvider(name = "data", parallel = true)
-    public static Object[][] getData() {
+    @DataProvider(parallel = true)
+    public Object[][] provideData() {
         XMLReader xmlReader = new XMLReader();
         Products products = new Products();
         products.setProducts(xmlReader.getXmlData());
-        Object[][] productData = new Object[products.getProducts().size()][2];
-        for (int i = 0; i < products.getProducts().size(); i++) {
-            Object[] column = productData[i];
-            column[0] = products.getProducts().get(i).getId();
-            column[1] = products.getProducts().get(i);
-        }
-        return productData;
+        return products.getProducts().stream()
+                .map(product -> new Object[]{product.getId(),product})
+                .toArray(Object[][]::new);
     }
 
     @BeforeMethod
@@ -45,22 +36,24 @@ public class BasketTest {
         chromedriver().setup();
     }
 
-    @Test(dataProvider = "data")
+    @Test(dataProvider = "provideData")
     public void checkThatProductIsInBucketAndBlowPrice(String dataId, Product product) {
-        homePage = new HomePage();
+        SoftAssert softAssert = new SoftAssert();
+        HomePage homePage = new HomePage();
         homePage.searchByKeyWord(product.getName());
-        searchResultPage = new SearchResultPage();
+        SearchResultPage searchResultPage = new SearchResultPage();
         searchResultPage.waitForPageToLoad();
         searchResultPage.scrollToElement(searchResultPage.getSearchBrandField());
         searchResultPage.searchProductByBrandFilter(product.getBrand());
         searchResultPage.clickOnAddProductToBasketButton();
         searchResultPage.clickOnBasketIcon();
-        assertTrue(Integer.parseInt(product.getPrice()) < searchResultPage.getSumPriceValue());
-        assertEquals(searchResultPage.getNumberOfProductsInBasket(), 1);
+        softAssert.assertTrue(Integer.parseInt(product.getPrice()) < searchResultPage.getSumPriceValue());
+        softAssert.assertEquals(searchResultPage.getNumberOfProductsInBasket(), 1);
+        softAssert.assertAll();
     }
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
-     //   WebDriverSingleton.close();
+        WebDriverSingleton.close();
     }
 }

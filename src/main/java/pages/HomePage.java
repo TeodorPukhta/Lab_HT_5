@@ -2,7 +2,6 @@ package pages;
 
 import decorator.Button;
 import decorator.InputText;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
